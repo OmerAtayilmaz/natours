@@ -20,6 +20,7 @@ const bookingRouter = require("./routes/bookingRoutes");
 //GLOBAL MIDDLEWARES
 const app = express();
 
+app.enable("trust proxy");
 //defining view engine
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views")); //views adındaki klasörün yolunu getirir.
