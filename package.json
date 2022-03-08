@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "parcel": "^2.0.0-nightly.841",
     "parcel-bundler": "^1.12.5"
   },
   "engines": {
