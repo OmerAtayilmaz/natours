@@ -1,33 +1,39 @@
-//uncaughtException en basta olmali
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
 process.on("uncaughtException", (err) => {
-  /*   console.log(
-    "UNCAUGHT EXCEPTION- Shooting down...",
-    err.name,
-    err.message,
-    err.stack
-  ); */
+  console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
+  console.log(err.name, err.message);
   process.exit(1);
 });
-const mongoose = require("mongoose");
 
-const dotenv = require("dotenv");
-dotenv.config({ path: "./config.env" }); //apptan önce olmalı, çünkü appta congif kullanılmış!
+dotenv.config({ path: "./config.env" });
 const app = require("./app");
 
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
-mongoose.connect(DB, {
-  useNewUrlParser: true,
-});
+
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log("DB connection successful!"));
+
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  //SERVER IS RUNNING ON PORT ..
+  console.log(`App running on port ${port}...`);
 });
 
 process.on("unhandledRejection", (err) => {
-  server.close(() => process.exit(1));
+  console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
 });
 
 process.on("SIGTERM", () => {
@@ -36,47 +42,3 @@ process.on("SIGTERM", () => {
     console.log("💥 Process terminated!");
   });
 });
-
-/*
-const toursSchema=new mongoose.Schema({
-    name:{
-        type:String,
-        required:[true,"A tour must have a name"],
-        unique:[true,"A tour name must be unique!"]
-    },
-    rating:{
-        type:Number,
-        required:true,
-        default:4.5
-    },
-    price:{
-        type:Number,
-        required:[true,"A tour must have a price"]
-    }
-});
-
-const Tour= mongoose.model('Tour',toursSchema);
-
-const testTour=new Tour({
-    name:"The Park Camper",
-    rating:8.3,
-    price:295
-});
-
- Create işlemi
- testTour.save()
-.then(doc=>{
-    console.log("Kaydedilen:",doc);
-})
-.catch(err=>{
-    console.log(err);
-})
-; */
-
-//console.log(process.env);/* proje hakkında birçok bilgiyi listeler */
-//console.log(app.get('env'));/*environment develpoment yazar,npm run start:prod ile çalıştırıldğında production çalışır */
-
-/* config dosyasını okuyup node environmente ekledi! 
--config dosyası oluşturduk
--npm i dotenv ile dotenv kurduk 
-*/
