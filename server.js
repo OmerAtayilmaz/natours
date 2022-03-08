@@ -29,10 +29,11 @@ const server = app.listen(port, () => {
 process.on("unhandledRejection", (err) => {
   server.close(() => process.exit(1));
 });
+
 process.on("SIGTERM", () => {
-  console.log("👋 SIGTERM RECEIVED.👋 Shutting down gracefully!");
+  console.log("👋 SIGTERM RECEIVED. Shutting down gracefully");
   server.close(() => {
-    console.log("Process teriminated 👋");
+    console.log("💥 Process terminated!");
   });
 });
 
