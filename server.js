@@ -1,11 +1,11 @@
 //uncaughtException en basta olmali
 process.on("uncaughtException", (err) => {
-  console.log(
+  /*   console.log(
     "UNCAUGHT EXCEPTION- Shooting down...",
     err.name,
     err.message,
     err.stack
-  );
+  ); */
   process.exit(1);
 });
 const mongoose = require("mongoose");
@@ -24,17 +24,19 @@ mongoose //.connect(process.env.DATABASE_LOCAL,{
   })
   .then((con) => {
     // console.log("connection:",con.connections);
-    console.log("DB connection successful!");
+    /*     console.log("DB connection successful!");
+     */
   });
 //test: burada bug var
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  console.log(`App running on port:${port}...`);
+  /*   console.log(`App running on port:${port}...`);
+   */
 });
 
 process.on("unhandledRejection", (err) => {
-  console.log("UNHANDLED REJECTION-", err.name, err.message);
-  server.close(() => process.exit(1));
+  /*   console.log("UNHANDLED REJECTION-", err.name, err.message);
+   */ server.close(() => process.exit(1));
 });
 
 /*

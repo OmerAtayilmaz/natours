@@ -131,8 +131,8 @@ toursSchema.virtual("reviews", {
 //important: we can use multiple pre,post etc. middleware for same hook
 //DOCUMENT MIDDLEWARE: runs before .save() and .create() command - not insertMany
 toursSchema.pre("save", function (next) {
-  console.log(this); //işlem gören objeyi döndürür.
-  this.slug = slugify(this.name, { lower: true });
+  /*   console.log(this); //işlem gören objeyi döndürür.
+   */ this.slug = slugify(this.name, { lower: true });
   next();
   /*
    
@@ -169,13 +169,13 @@ toursSchema.pre(/^find/, function (next) {
 });
 //post middleware: has two parameters. doc:the document which we try to save, next() for continuing
 toursSchema.post("save", function (doc, next) {
-  console.log(doc);
-  next();
+  /*   console.log(doc);
+   */ next();
 });
 
 toursSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} miliseconds`);
-  //console.log(docs);
+  /*   console.log(`Query took ${Date.now() - this.start} miliseconds`);
+   */ //console.log(docs);
   next();
 });
 

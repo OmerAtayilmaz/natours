@@ -11,12 +11,9 @@ const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-  })
-  .then(() => console.log("DB baglantisi basarili"));
-
+mongoose.connect(DB, {
+  useNewUrlParser: true,
+});
 //READ JSON file
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/./tours.json`, "utf-8"));
 const users = JSON.parse(fs.readFileSync(`${__dirname}/./users.json`, "utf-8"));
@@ -30,9 +27,9 @@ const importData = async () => {
     // await User.create(users, { validateBeforeSave: false });
     await Review.create(reviews);
     process.exit();
-    console.log("Data successfully loaded");
   } catch (err) {
-    console.log(err);
+    /*     console.log(err);
+     */
   }
 };
 
@@ -42,10 +39,10 @@ const deleteData = async () => {
     // await Tour.deleteMany();
     await Review.deleteMany();
     //   await User.deleteMany();
-    console.log("Data successfully deleted!");
     process.exit(); /* işlemi bitir.  */
   } catch (err) {
-    console.log(err);
+    /*     console.log(err);
+     */
   }
 };
 //command line:node dev-data/data/import-dev-data.js --import
@@ -54,4 +51,5 @@ if (process.argv[2] === "--import") {
 } else if (process.argv[2] == "--delete") {
   deleteData();
 }
-console.log(process.argv);
+/* console.log(process.argv);
+ */
