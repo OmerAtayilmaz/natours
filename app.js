@@ -17,6 +17,7 @@ const userRouter = require("./routes/userRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const viewRouter = require("./routes/viewRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
+const bookingController = require("./controllers/bookingController");
 
 //GLOBAL MIDDLEWARES
 const app = express();
@@ -49,6 +50,13 @@ const limiter = rateLimit({
 });
 //sadece icide /api gecenlerde calisir. :)
 app.use("/api", limiter);
+//express.json()'dan önce olmalıdır!
+app.post(
+  "/webhook-checkout",
+  express.raw({ type: "application/json" }),
+  bookingController.webhookCheckout
+);
+
 //body parser,reading data from the body into req.body
 app.use(
   express.json({
